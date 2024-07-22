@@ -1,6 +1,6 @@
 ---
 title: "Covid91 vaccine study Final2024"
-author: "Put your name here!"
+author: "Daisy Gallegos!"
 output: 
   html_document:
     number_sections: true
@@ -22,12 +22,26 @@ mutate(across(where(is.character), as.factor))
 
 # Introduction
 
-A new  preventative vaccine (covid921) is under test in clinical trials. Given the nature of this vaccine it is suspected that the drug may exhibit different effectiveness across the variety of subpopulations tracked. Consider population subgroups by gender( guys and gals), drug use, and sexual orientation. Write a complete report that separately considers this drug for each subgroup and your recommendations as to whether people in the subgroup should take the vaccine. Structure your report in four sections each devoted to one of the four subgroups, use null and alternative hypothesis statements and correct statistical verbage when referencing p-values in conclusions.
+A new  preventative vaccine (Covid921) is under test in clinical trials. Given the nature of this vaccine it is suspected that the drug may exhibit different effectiveness across the variety of sub populations tracked. Consider population subgroups by gender( guys and gals), drug use, and sexual orientation. Write a complete report that separately considers this drug for each subgroup and your recommendations as to whether people in the subgroup should take the vaccine. Structure your report in four sections each devoted to one of the four subgroups, use null and alternative hypothesis statements and correct statistical verbiage when referencing p-values in conclusions.
+
+Coding Details
+(write a summary of what i plan on doing with each category)
 
 ## Males
 
+<Insert barplot coding here>
+
+<insert percentage plot here>
+
+<insert summary here explaining both charts>
+
+<enter numerical results here> 
+summarize these results here
+
+<insert Inferential coding here>
 
 ## Females
+
 
 
 ## LGBTQ
@@ -37,4 +51,7 @@ A new  preventative vaccine (covid921) is under test in clinical trials. Given t
 ## Druggies
 
 
+
 # Overall Results and Conclusions
+
+
