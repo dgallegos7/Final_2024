@@ -143,9 +143,6 @@ basicCC <- ggplot(dd2, aes(x=infected, y=prcnt*100, fill=treatment)) +
 basicCC
 ```
 
-SUMMARY
-<insert summary here explaining both charts>
-
 
 ### Numerical results
 
@@ -203,13 +200,12 @@ Results:
 Chi-squared Value: 105
 Degrees of Freedom: 1
 P-value: Less than 2e-16
-Interpretation:
 
-The extremely low p-value indicates that the differences between the observed counts of infected and non-infected individuals in the treatment (vaccine) and control (placebo) groups are statistically significant.
+Interpretation: The extremely low p-value indicates that the differences between the observed counts of infected and non-infected individuals in the treatment (vaccine) and control (placebo) groups are statistically significant.
 This suggests a strong association between the type of treatment and the infection outcomes, with the vaccine showing a significant effect in reducing the infection rates compared to the placebo.
+
 Observed vs. Expected Counts
 Observed Counts:
-
 Covid19 infections are considerably lower in the vaccine group (221) compared to the placebo group (499).
 Non-infected counts are nearly equal between the two groups, suggesting that the vaccine has specifically helped in reducing the number of infections without affecting overall health outcomes.
 Expected Counts by Null (if there were no treatment effect):
@@ -218,6 +214,7 @@ Expected counts under the null hypothesis show a much closer distribution betwee
 Contributions to Chi-square Statistic:
 
 Major contributions to the chi-square statistic come from the infected groups, indicating that these are the categories driving the statistical significance.
+
 Fisher's Exact Test for Count Data
 Results:
 
@@ -255,7 +252,7 @@ Based on the trial results, widespread use of the Covid921 vaccine is recommende
 ## Females
 
 ```{r}
-dd2 <- FinalDat %>% group_by(infected,treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
+dd2 <- Females %>% group_by(infected,treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
 
 
 # the group_by followed by summarize(count=n())
@@ -265,13 +262,84 @@ basicC + geom_bar(stat="identity",position="dodge")
 
 #Now for percentage plot
 
-basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment)) 
+basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
 basicCC + geom_bar(stat="identity", position = "dodge")
 ```
 
-## LGBTQ
+This Plot Represents the population of females and shows the treatment and infected of Covid 19, As well as shows us which one worked better and showed better results for those who got Covid 19 that are female like the placebo or the vaccine. In this plot it shows that the number of people who took the placebo worked a lot better for them than the females who had taken the vaccine. Those who had taken the vaccine i belive were more exposed to getting Covid 19 than those who had taken the placebo and the females on the placebo side seemed to work a lot better for them. The percentage seems to be at 100% when i open up this plot.
+
+### Numerical Results
+```{r}
+table1 <- xtabs(~infected + treatment, data=Females)
+rowPerc(table1)
+colPerc(table1)
+```
+These Numerical Results Shown above, basically are supposed to show percentages of the infected and the treatment of those with Covid 19, fter they had taken the vaccine or the placebo. In the results above the Covid 19 is shown to be abot 100 while the females who were Ok are also shown at a percentage of 100% but Covid 19 at the bottom seems to show NaN and Ok at NaN as well but the total for both is 100% in these numerical results for the females.
+
+## Inferential
+
+```{r}
+fisher_result <- fisher.test(table1)
+fisher.test(table1)
+Femalesfish <- fisher.test(table1)
+Femalesfish
+```
+
+The Information for the fishers Exact Data or the Inferential results show, the p value is at 1 while the alternative hypothesis is at true odds ratio is not equal to 1 percent of 95 percent Confidence Interval. Then as the results show the Odds ratio is 0, for the exact data it is the same and still shows the result of 0. So the females who got the placebo were not likely to get Covid 19 while those who had the vaccine i belive are much more likely to get Covid all while still taking the vaccine.
+
+```{r}
+effect <- Femalesfish$p.value/(Femalesfish$p.value +1)
+effectivenessgal = Femalesfish$estimate/(Femalesfish$estimate +1)*100
+print(effectivenessgal)
+```
+
+```{r}
+low=(Femalesfish$conf.int[1]/(Femalesfish$conf.int[1] +1))*100
+hi=(Femalesfish$conf.int[2]/(Femalesfish$conf.int[2] +1))*100
+options(digits=2)
+```
+## Effective Confidence Interval
+
+As Shown above, the effectiveness for Covid 19 for the females is at 0% as shown that shows us that the vaccine is not effective at all. Based on the plot shown above the placebo i think is the one that may show much better results than those who had taken the vaccine. So now that we know we can continue and onclude that the placebo i belive was the most effective while the vaccine was not.
+  
+### Barplot
+```{r}
+dd2 <- FinalData  %>% group_by(infected,treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
 
 
+# the group_by followed by summarize(count=n())
+
+basicC <- ggplot(dd2,aes(x=infected,y=count,fill=treatment))
+basicC + geom_bar(stat="identity",position="dodge")
+
+#Now for percentage plot
+
+basicCC <- ggplot(dd2,aes(x=infected,y=prcnt*100,fill=treatment))
+basicCC + geom_bar(stat="identity", position = "dodge")
+```
+
+### Numerical results
+```{r}
+table1 <- xtabs(~infected + treatment, data=FinalData)
+rowPerc(table1)
+colPerc(table1)
+```
+
+### Inferential
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+FinalData <- fisher.test(table1)
+FinalData
+```
+
+## Effectiveness Confidence Interval `r low` to `r hi`
+
+```{r}
+effect <- drugfish$p.value/(drugfish$p.value +1)
+effectivenessdrug = drugfish$estimate/(drugfish$estimate +1)*100
+print(effectivenessdrug)
+```
 
 ## Druggies
 
@@ -319,10 +387,9 @@ chisqtestGC(table1)
 drugfish <- fisher.test(table1)
 drugfish
 ```
-
-The p-value is 2.5 with that being said, the conclusion is that these results are unlikely to occur by chance because of how low the number is. The Fishers's Exact Test provides information showing that the odds ratio is 1.8, drug users who got the vaccine were about half as likely to get Covid-19 than drug users that took the placebo. The null hypothesis is rejected in favor of the alternative. The vaccine is effective in preventing the chances of getting covid-19 in drug users.
-
-
+  
+The p-value is 3 with that being said, the conclusion is that these results are unlikely to occur by chance because of how low the number is. The Fisher's Exact Test provides information showing that the odds ratio is 0.087, drug users who got the vaccine were about half as likely to get Covid-19 than drug users that took the placebo. The null hypothesis is rejected in favor of the alternative. The vaccine is effective in preventing the chances of getting covid-19 in drug users.
+  
 ## Effectiveness Confidence Interval `r low` to `r hi`
 
 ```{r}
@@ -344,4 +411,4 @@ The odds ratio is approximately how effective the vaccine is. The odds ratio for
 
 # Overall Results and Conclusions
 
-
+The Covid921 vaccine demonstrates substantial effectiveness for certain subgroups, particularly males and drug users, while its efficacy for females remains questionable. These findings highlight the importance of targeted vaccination strategies and further research to optimize vaccine recommendations across diverse populations.
